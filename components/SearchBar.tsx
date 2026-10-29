@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 
 type SearchBarProps = {
@@ -28,7 +28,7 @@ export default function SearchBar({
 
       {value?.length > 0 && onClear && (
         <Pressable onPress={onClear} hitSlop={10}>
-          <Ionicons name="close-circle" size={18} color="#94a4b8"></IonIcons>
+          <Ionicons name="close-circle" size={18} color="#94a4b8" />
         </Pressable>
       )}
     </View>
