@@ -1,15 +1,31 @@
-import { StatusBar, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
 import CategoryButton from "./components/CategoryButton";
 import MovieCard from "./components/MovieCard";
+import { movies } from "./data/movies";
+import { useState } from "react";
 
 export default function App() {
+  const [search, setSearch] = useState("");
+
+  const filteredMovies = movies.filter((movie) => {
+    const matchesSearch = movie.title
+      .toLowerCase()
+      .includes(search.toLowerCase().trim());
+
+      return matchesSearch
+  });
+
+  const handleSearchClear = () => {
+    setSearch("")
+  }
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <Header />
-      <SearchBar />
+      <SearchBar value={search} onChangeText={setSearch} onClear={handleSearchClear} />
 
       <View style={styles.containerCategory}>
         <CategoryButton title="Todos" selected={true} />
@@ -29,14 +45,19 @@ export default function App() {
         </View>
       </View>
 
-      <MovieCard 
-        image={require("./assets/movies/vingadores-ultimato.jpg")}
-        title="Vingadores: Ultimato" 
-        category="Ação"
-        rating={4.9}
-        favorite={true}
-      />
-    </View>
+      {filteredMovies.map((movie) => (
+        <MovieCard
+          key={movie.id}
+          image={movie.image}
+          title={movie.title}
+          category={movie.category}
+          rating={movie.rating}
+          favorite={false}
+          onDatails={() => { }}
+          onFavorite={() => { }}
+        />
+      ))}
+    </ScrollView>
   );
 }
 
